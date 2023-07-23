@@ -1,12 +1,20 @@
 import { TextInput } from "react-native";
 import React, { useState } from "react";
 
-const Input = ({ placeholder, isPass, setStateValue }) => {
+const Input = ({ placeholder, isPass, setStateValue, setEmailValidation }) => {
   const [value, setValue] = useState("");
+  const [isEmail, setIsEmail] = useState(false);
 
   const handleTextChange = (text) => {
     setValue(text);
-    setStateValue(value);
+    setStateValue(text);
+
+    if (placeholder === "Email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const status = emailRegex.test(value);
+      setIsEmail(status);
+      setEmailValidation(status);
+    }
   };
 
   return (
@@ -20,7 +28,10 @@ const Input = ({ placeholder, isPass, setStateValue }) => {
       secureTextEntry={isPass ? true : false}
       style={{
         borderWidth: 1,
-        borderColor: "black",
+        borderColor:
+          !isEmail && placeholder == "Email" && value.length > 0
+            ? "red"
+            : "black",
         height: 50,
         width: 280,
         alignSelf: "center",

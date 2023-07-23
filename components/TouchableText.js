@@ -1,21 +1,38 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 
-const TouchableText = ({ navigation, button, textBtn, isFalse, text }) => {
+const TouchableText = ({
+  navigation,
+  button,
+  textBtn,
+  isFalse,
+  text,
+  isRegister,
+  handleSignUp,
+}) => {
   const handler = () => {
     if (isFalse) {
+      //
       navigation.navigate("Sign Up");
     }
     if (!isFalse) {
       navigation.navigate("Sign In");
     }
   };
+
+  const LoginRegisterBtn = async () => {
+    if (isRegister) {
+      handleSignUp();
+      navigation.navigate("Sign In");
+    }
+    if (!isRegister) {
+      navigation.navigate("Home");
+    }
+  };
+
   return (
     <>
-      <TouchableOpacity
-        style={styles.btnContainer}
-        onPress={() => navigation.navigate("Home")}
-      >
+      <TouchableOpacity style={styles.btnContainer} onPress={LoginRegisterBtn}>
         <Text style={styles.btnTitle}>{button}</Text>
       </TouchableOpacity>
 
